@@ -40,9 +40,9 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   const drawerContent = (
     <Box>
-      <Toolbar sx={{ bgcolor: 'primary.main' }}>
-        <Typography variant="h6" color="primary.contrastText" noWrap>
-          GAS Workshop
+      <Toolbar sx={{ bgcolor: 'primary.main', borderBottom: '3px solid', borderColor: 'primary.dark' }}>
+        <Typography variant="h6" color="primary.contrastText" noWrap fontWeight={700}>
+          🔥 GAS Workshop
         </Typography>
       </Toolbar>
       <Divider />
@@ -53,7 +53,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             selected={location.pathname === path}
             onClick={() => { navigate(path); setMobileOpen(false) }}
           >
-            <ListItemIcon sx={{ color: location.pathname === path ? 'secondary.main' : 'inherit' }}>
+            <ListItemIcon sx={{ color: location.pathname === path ? 'primary.main' : 'inherit' }}>
               {icon}
             </ListItemIcon>
             <ListItemText primary={label} />

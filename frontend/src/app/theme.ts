@@ -3,15 +3,17 @@ import { createTheme } from '@mui/material/styles'
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1a2b4a',   // Naturgy navy
+      main: '#F47920',   // Naturgy orange
+      dark: '#C85A00',
+      light: '#FFA04D',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#28a745',   // Naturgy green CTA
+      main: '#E85E00',   // Naturgy burnt orange (CTA)
       contrastText: '#ffffff',
     },
     background: {
-      default: '#f4f6f9',
+      default: '#FBF6F1',   // warm light neutral
       paper: '#ffffff',
     },
   },
