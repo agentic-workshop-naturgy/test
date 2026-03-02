@@ -1,0 +1,24 @@
+# Clarifications / Decisions — DB Scaffold (2026-03-02)
+
+## gas.seed.samples-dir property
+- Default value: `_data/db/samples` (relative to working directory).
+- When running `mvn` from `backend/`, tests use `../_data/db/samples` (set in application-test.properties).
+- When running the app from repo root: `_data/db/samples` resolves correctly.
+
+## gas-readings.csv — CUPS ES0021000000003CD not in supply-points
+- Row with cups=ES0021000000003CD is present in gas-readings.csv but NOT in supply-points.csv.
+- Decision: seeder does NOT enforce FK at import time (H2 schema does not define a DB-level FK
+  from gas_readings.cups → supply_points.cups). Orphan readings are allowed at seed level;
+  billing logic will skip them because the supply point won't be found as ACTIVO.
+- This matches the spec: "cups must exist in supply-points" is a validation concern at billing time.
+
+## Invoice unique constraint
+- Unique on (cups, periodo_inicio) to support idempotent re-billing per (CUPS, YYYY-MM).
+
+## alquiler_eur
+- Not stored per supply-point in this scaffold. Treated as 0.00 per logic-spec default.
+- Future: add alquiler_eur column to supply_points if required.
+
+## H2Dialect deprecation warning
+- `spring.jpa.database-platform=org.hibernate.dialect.H2Dialect` produces a Hibernate 6 deprecation
+  warning. Left as-is for explicit clarity; can be removed to let Hibernate auto-detect.
