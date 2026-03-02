@@ -1,5 +1,6 @@
 package com.naturgy.gas.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.naturgy.gas.domain.enums.TipoLinea;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ public class InvoiceLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "invoice_id", nullable = false)
     @NotNull
