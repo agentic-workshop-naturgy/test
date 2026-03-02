@@ -22,3 +22,26 @@
 ## H2Dialect deprecation warning
 - `spring.jpa.database-platform=org.hibernate.dialect.H2Dialect` produces a Hibernate 6 deprecation
   warning. Left as-is for explicit clarity; can be removed to let Hibernate auto-detect.
+
+## gas-api-scaffold decisions ($(date -u +%Y-%m-%d))
+
+1. BillingController path: POST /api/gas/billing/{period} (path variable, not ?period query param).
+   Spec said both; chose path variable per instructions.
+
+2. GasTariff CRUD uses tarifa (String PK) as path variable. JPA merge() handles both create/update via save().
+
+3. InvoiceLine.invoice back-reference annotated @JsonIgnore to prevent Jackson circular reference.
+   (Annotation added to existing file per "untouched unless adding to them" rule.)
+
+4. InvoiceRepository: added findByIdWithLines() and findAllWithLines() with JOIN FETCH to prevent
+   LazyInitializationException outside a Hibernate session.
+
+5. DataIntegrityViolationException → HTTP 409 CONFLICT added to GlobalExceptionHandler.
+
+6. alquiler_eur defaults to 0.00 per logic-spec workshop default. No ALQUILER line generated.
+
+7. BillingService static helpers (computeKwh, computeCosteVariable, computeBase, computeImpuestos)
+   exposed as public static for unit-testability without Spring context.
+
+8. Integration tests annotated @Transactional so Hibernate session stays open for lazy collection access.
+   Each test rolls back; DataSeeder seed data (loaded once at context start) remains available.
